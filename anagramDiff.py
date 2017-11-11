@@ -9,20 +9,19 @@ def anagram_diff(start, end):
             raise Exception("invalid input")
         letter_count[start_char_val] += 1
 
-    for i in range(len(end)):
         end_char_val = ord(end[i]) - ord('a')
         if(end_char_val < 0 or end_char_val > 25):
             raise Exception("invalid input")
-        if letter_count[end_char_val] > 0:
-            letter_count[end_char_val] -= 1
+        letter_count[end_char_val] -= 1
 
-    return_val = reduce(lambda x, y: y + abs(x), letter_count)
+    return_val = 0
+    for i in letter_count:
+        if i > 0:
+            return_val += i
 
     print start, end, return_val
 
     return return_val
-
-
 
 
 assert(anagram_diff("abba", "bbaa") == 0)
