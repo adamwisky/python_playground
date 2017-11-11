@@ -9,17 +9,20 @@ def find_routes():
         find_routes_recursive(path, next_airport, visit_list)
 
 
-def find_routes_recursive(path, current, visitlist):
-    print "path so far", path, "at", current, "visitList = ", visitlist
+def find_routes_recursive(path, current, visit_list):
+    path_local = path[:]
+    path_local.append(current)
+
+    #print "path so far", path_local, "at", current, "visit_list = ", visit_list
     if current == airport_dst:
-        print " ".join(path)
+        print " ".join(path_local)
         return
 
-    visitlist.add(current)
+    visit_list_local = visit_list.copy()
+    visit_list_local.add(current)
     for i in routes[current]:
-        if i not in visitlist:
-            path.append(i)
-            find_routes_recursive(list(path), i, set(visitlist))
+        if i not in visit_list_local:
+            find_routes_recursive(path_local, i, visit_list_local)
 
 
 routes = defaultdict(list)
@@ -41,7 +44,7 @@ lineList = f.readline().split(' ')
 airport_src = lineList[0].strip()
 airport_dst = lineList[1].strip()
 
-for i in range(numRoutes):
+for x in range(numRoutes):
     route = f.readline().split(' ')
     src = route[0].strip()
     dst = route[1].strip()
@@ -49,9 +52,9 @@ for i in range(numRoutes):
     routes[dst].append(src)
 
 
-print numRoutes
-print airport_src, airport_dst
-print routes
+#print numRoutes
+#print airport_src, airport_dst
+#print routes
 
 
 find_routes()
